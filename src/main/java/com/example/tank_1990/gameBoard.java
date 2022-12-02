@@ -15,11 +15,9 @@ public class gameBoard extends AnimationTimer {
     private final int ITANK_Y = 60;
     private Tank tank;
     private Canvas canvas;
-    //private final int DELAY = 10;
 
     public gameBoard() {
-        this.canvas = new Canvas(820,640);
-        // Canvas je transparentní. Tj. pokud chceme pozadí nějaké barvy, vykreslíme obdelník
+        this.canvas = new Canvas(800,600);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.setFill(Color.BEIGE);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
@@ -40,13 +38,8 @@ public class gameBoard extends AnimationTimer {
                 tank.keyReleased(keyEvent);
             }
         });
-        //addKeyListener(new TAdapter());
-        //setBackground(Color.black);
-        //setFocusable(true);
 
         tank = new Tank(ITANK_X,ITANK_Y);
-
-        //timer = new Timer(DELAY, this);
         this.start();
     }
 
@@ -72,27 +65,25 @@ public class gameBoard extends AnimationTimer {
         for (Grenade grenade : grenades) {
             gc.setStroke(Color.BEIGE);
             gc.setLineWidth(3);
-            gc.strokeLine(missile.getX()-3, missile.getY(), missile.getX()-3, missile.getY()+missile.height);
-            gc.drawImage(missile.getImage(), missile.getX(),
-                    missile.getY());
+            gc.strokeLine(grenade.getX()-3, grenade.getY(), grenade.getX()-3, grenade.getY()+grenade.height);
+            gc.drawImage(grenade.getImage(), grenade.getX(),
+                    grenade.getY());
         }
-        //repaint(spaceShip.getX()-1, spaceShip.getY()-1,
-        //        spaceShip.getWidth()+2, spaceShip.getHeight()+2);
     }
 
     private void updateGrenade() {
-        List<Grenade> missiles = tank.getGrenades();
-        for (int i = 0; i < missiles.size(); i++) {
-            Missile missile = missiles.get(i);
-            if (missile.isVisible()) {
-                missile.move();
+        List<Grenade> grenades = tank.getGrenades();
+        for (int i = 0; i < grenades.size(); i++) {
+            Grenade grenade = grenades.get(i);
+            if (grenade.isVisible()) {
+                grenade.move();
             } else {
-                missiles.remove(i);
+                grenades.remove(i);
             }
         }
     }
 
-    private void updateSpaceShip() {
-        spaceShip.move();
+    private void updateTank() {
+        tank.move();
     }
 }
