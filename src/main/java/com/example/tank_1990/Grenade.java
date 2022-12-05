@@ -1,7 +1,7 @@
 package com.example.tank_1990;
 
 public class Grenade extends Entita{
-    private final int BOARD_WIDTH = 390;
+    private final int BOARD_WIDTH = 1200;
     private final int GRENADE_SPEED = 2;
 
     public Grenade(int x, int y) {

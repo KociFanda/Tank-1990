@@ -1,6 +1,5 @@
 package com.example.tank_1990;
 
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -22,7 +21,7 @@ public class Tank extends Entita {
 
         grenades = new ArrayList<>();
 
-        loadImage("tank.jpg");
+        loadImage("tankLeft.png");
         getImageDimensions();
     }
 
@@ -45,18 +44,30 @@ public class Tank extends Entita {
 
         if (key == KeyCode.LEFT) {
             dx = -2;
+            dy = 0;
+            loadImage("tankLeft.png");
+            getImageDimensions();
         }
 
         if (key == KeyCode.RIGHT) {
             dx = 2;
+            dy = 0;
+            loadImage("tankRight.png");
+            getImageDimensions();
         }
 
         if (key == KeyCode.UP) {
             dy = -2;
+            dx = 0;
+            loadImage("tankUp.png");
+            getImageDimensions();
         }
 
         if (key == KeyCode.DOWN) {
             dy = 2;
+            dx = 0;
+            loadImage("tankDown.png");
+            getImageDimensions();
         }
     }
 
