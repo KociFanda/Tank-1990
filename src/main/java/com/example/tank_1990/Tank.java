@@ -10,6 +10,7 @@ public class Tank extends Entita {
     private int dx;
     private int dy;
     private List<Grenade> grenades;
+    private String imageName;
 
     public Tank(int x, int y) {
         super(x, y);
@@ -22,6 +23,7 @@ public class Tank extends Entita {
         grenades = new ArrayList<>();
 
         loadImage("tankLeft.png");
+        imageName = "tankLeft.png";
         getImageDimensions();
     }
 
@@ -46,6 +48,7 @@ public class Tank extends Entita {
             dx = -2;
             dy = 0;
             loadImage("tankLeft.png");
+            imageName = "tankLeft.png";
             getImageDimensions();
         }
 
@@ -53,6 +56,7 @@ public class Tank extends Entita {
             dx = 2;
             dy = 0;
             loadImage("tankRight.png");
+            imageName = "tankRight.png";
             getImageDimensions();
         }
 
@@ -60,6 +64,7 @@ public class Tank extends Entita {
             dy = -2;
             dx = 0;
             loadImage("tankUp.png");
+            imageName = "tankUp.png";
             getImageDimensions();
         }
 
@@ -67,9 +72,11 @@ public class Tank extends Entita {
             dy = 2;
             dx = 0;
             loadImage("tankDown.png");
+            imageName = "tankDown.png";
             getImageDimensions();
         }
     }
+    public String getImageName(){return imageName;}
 
     public void fire() {
         grenades.add(new Grenade(x + width, y + height / 2));
