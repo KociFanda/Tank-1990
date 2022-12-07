@@ -9,7 +9,10 @@ import java.util.List;
 public class Tank extends Entita {
     private int dx;
     private int dy;
-    private List<Grenade> grenades;
+    private List<GrenadeRight> grenadesR;
+    private List<GrenadeLeft> grenadesL;
+    private List<GrenadeUp> grenadesU;
+    private List<GrenadeDown> grenadesD;
     private String imageName;
 
     public Tank(int x, int y) {
@@ -19,8 +22,10 @@ public class Tank extends Entita {
     }
 
     private void initTank() {
-
-        grenades = new ArrayList<>();
+        grenadesR = new ArrayList<>();
+        grenadesL = new ArrayList<>();
+        grenadesU = new ArrayList<>();
+        grenadesD = new ArrayList<>();
 
         loadImage("tankLeft.png");
         imageName = "tankLeft.png";
@@ -32,16 +37,39 @@ public class Tank extends Entita {
         y += dy;
     }
 
-    public List<Grenade> getGrenades() {
-        return grenades;
+    public List<GrenadeRight> getGrenadesR() {
+        return grenadesR;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public List<GrenadeLeft> getGrenadesL() {
+        return grenadesL;
+    }
+
+    public List<GrenadeUp> getGrenadesU() {
+        return grenadesU;
+    }
+
+    public List<GrenadeDown> getGrenadesD() {
+        return grenadesD;
+    }
+
+    public void keyPressed(KeyEvent e, String tankPosition) {
 
         KeyCode key = e.getCode();
 
         if (key == KeyCode.SPACE) {
-            fire();
+            if (imageName == "tankRight.png") {
+                fireRight();
+            }
+            if (imageName == "tankLeft.png") {
+                fireLeft();
+            }
+            if (imageName == "tankUp.png") {
+                fireUp();
+            }
+            if (imageName == "tankDown.png") {
+                fireDown();
+            }
         }
 
         if (key == KeyCode.LEFT) {
@@ -76,10 +104,25 @@ public class Tank extends Entita {
             getImageDimensions();
         }
     }
-    public String getImageName(){return imageName;}
 
-    public void fire() {
-        grenades.add(new Grenade(x + width, y + height / 2));
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void fireRight() {
+        grenadesR.add(new GrenadeRight(x + width, y + height / 2));
+    }
+
+    public void fireLeft() {
+        grenadesL.add(new GrenadeLeft(x - width / 2, y + height / 2 ));
+    }
+
+    public void fireUp() {
+        grenadesU.add(new GrenadeUp(x + width / 2, y - height / 2));
+    }
+
+    public void fireDown() {
+        grenadesD.add(new GrenadeDown(x + width / 2, y + height ));
     }
 
     public void keyReleased(KeyEvent e) {
