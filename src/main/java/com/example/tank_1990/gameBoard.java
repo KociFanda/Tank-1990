@@ -12,31 +12,31 @@ import javafx.util.Duration;
 
 import java.util.List;
 
-public class gameBoard  {
+public class gameBoard {
 
     private final int ITANK_X = 40;
     private final int ITANK_Y = 60;
     private Tank tank;
     private Canvas canvas;
     Image nejakyImage;
-    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e-> step()));
+    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
     String tankPosition;
+
     public gameBoard() {
-        this.canvas = new Canvas(1200,800);
+        this.canvas = new Canvas(1200, 800);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.setFill(Color.BEIGE);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         initBoard();
     }
 
     private void handle() {
-    timeline.setCycleCount(Timeline.INDEFINITE);
-    GraphicsContext gc = this.canvas.getGraphicsContext2D();
-    gc.setFill(Color.BEIGE);
-    gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-    timeline.play();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+        gc.setFill(Color.BEIGE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        timeline.play();
     }
-
 
 
     private void initBoard() {
@@ -55,9 +55,10 @@ public class gameBoard  {
             }
         });
 
-        tank = new Tank(ITANK_X,ITANK_Y);
+        tank = new Tank(ITANK_X, ITANK_Y);
         this.handle();
     }
+
     public Canvas getCanvas() {
         return canvas;
     }
@@ -68,10 +69,10 @@ public class gameBoard  {
         this.updateTank();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BEIGE);
-        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(Color.BEIGE);
         gc.setLineWidth(20);
-        gc.strokeRect(tank.getX()-15, tank.getY()-15, tank.getImage().getWidth()+4, tank.getImage().getHeight()+6);
+        gc.strokeRect(tank.getX() - 15, tank.getY() - 15, tank.getImage().getWidth() + 4, tank.getImage().getHeight() + 6);
         gc.drawImage(tank.getImage(), tank.getX(), tank.getY());
 
         List<GrenadeRight> grenadeR = tank.getGrenadesR();
@@ -121,7 +122,7 @@ public class gameBoard  {
         List<GrenadeUp> grenadeUp = tank.getGrenadesU();
         List<GrenadeDown> grenadeDown = tank.getGrenadesD();
 
-        if (tankPosition == "tankRight.png") {
+
             for (int i = 0; i < grenadeRight.size(); i++) {
                 GrenadeRight grenade11 = grenadeRight.get(i);
                 if (grenade11.isVisible()) {
@@ -130,9 +131,6 @@ public class gameBoard  {
                     grenadeRight.remove(i);
                 }
             }
-        }
-
-        if (tankPosition == "tankLeft.png") {
             for (int i = 0; i < grenadeLeft.size(); i++) {
                 GrenadeLeft grenade22 = grenadeLeft.get(i);
                 if (grenade22.isVisible()) {
@@ -141,9 +139,6 @@ public class gameBoard  {
                     grenadeLeft.remove(i);
                 }
             }
-        }
-
-        if (tankPosition == "tankUp.png") {
             for (int i = 0; i < grenadeUp.size(); i++) {
                 GrenadeUp grenade33 = grenadeUp.get(i);
                 if (grenade33.isVisible()) {
@@ -152,9 +147,6 @@ public class gameBoard  {
                     grenadeUp.remove(i);
                 }
             }
-        }
-
-        if (tankPosition == "tankDown.png") {
             for (int i = 0; i < grenadeDown.size(); i++) {
                 GrenadeDown grenade44 = grenadeDown.get(i);
                 if (grenade44.isVisible()) {
@@ -163,7 +155,7 @@ public class gameBoard  {
                     grenadeDown.remove(i);
                 }
             }
-        }
+
     }
 
 
