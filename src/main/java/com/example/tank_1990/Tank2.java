@@ -6,7 +6,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tank extends Entita {
+public class Tank2 extends Entita {
     public boolean isColliding = false;
     private int dx;
     private int dy;
@@ -16,20 +16,20 @@ public class Tank extends Entita {
     private List<GrenadeDown> grenadesD;
     private String imageName;
 
-    public Tank(int x, int y) {
+    public Tank2(int x, int y) {
         super(x, y);
 
-        initTank();
+        initTank2();
     }
 
-    private void initTank() {
+    private void initTank2() {
         grenadesR = new ArrayList<>();
         grenadesL = new ArrayList<>();
         grenadesU = new ArrayList<>();
         grenadesD = new ArrayList<>();
 
-        loadImage("tankLeft.png");
-        imageName = "tankLeft.png";
+        loadImage("tank2Left.png");
+        imageName = "tank2Left.png";
         getImageDimensions();
     }
 
@@ -60,49 +60,49 @@ public class Tank extends Entita {
 
             KeyCode key = e.getCode();
 
-            if (key == KeyCode.SPACE) {
-                if (imageName == "tankRight.png") {
+            if (key == KeyCode.SHIFT) {
+                if (imageName == "tank2Right.png") {
                     fireRight();
                 }
-                if (imageName == "tankLeft.png") {
+                if (imageName == "tank2Left.png") {
                     fireLeft();
                 }
-                if (imageName == "tankUp.png") {
+                if (imageName == "tank2Up.png") {
                     fireUp();
                 }
-                if (imageName == "tankDown.png") {
+                if (imageName == "tank2Down.png") {
                     fireDown();
                 }
             }
 
-            if (key == KeyCode.LEFT) {
+            if (key == KeyCode.A) {
                 dx = -2;
                 dy = 0;
-                loadImage("/tankLeft.png");
+                loadImage("tank2Left.png");
                 imageName = "tankLeft.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.RIGHT) {
+            if (key == KeyCode.D) {
                 dx = 2;
                 dy = 0;
-                loadImage("tankRight.png");
+                loadImage("tank2Right.png");
                 imageName = "tankRight.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.UP) {
+            if (key == KeyCode.W) {
                 dy = -2;
                 dx = 0;
-                loadImage("tankUp.png");
+                loadImage("tank2Up.png");
                 imageName = "tankUp.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.DOWN) {
+            if (key == KeyCode.S) {
                 dy = 2;
                 dx = 0;
-                loadImage("tankDown.png");
+                loadImage("tank2Down.png");
                 imageName = "tankDown.png";
                 getImageDimensions();
             }
@@ -131,19 +131,19 @@ public class Tank extends Entita {
 
     public void keyReleased(KeyEvent e) {
         KeyCode key = e.getCode();
-        if (key == KeyCode.LEFT) {
+        if (key == KeyCode.A) {
             dx = 0;
         }
 
-        if (key == KeyCode.RIGHT) {
+        if (key == KeyCode.D) {
             dx = 0;
         }
 
-        if (key == KeyCode.UP) {
+        if (key == KeyCode.W) {
             dy = 0;
         }
 
-        if (key == KeyCode.DOWN) {
+        if (key == KeyCode.S) {
             dy = 0;
         }
     }

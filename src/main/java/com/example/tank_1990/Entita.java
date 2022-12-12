@@ -1,6 +1,7 @@
 package com.example.tank_1990;
 
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Entita {
     protected int x;
@@ -27,6 +28,17 @@ public class Entita {
 
         width = (int) image.getWidth();
         height = (int) image.getHeight();
+    }
+     public Rectangle getRect(){
+        return new Rectangle(x, y, width, height);
+     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public Image getImage() {
