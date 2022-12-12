@@ -77,6 +77,7 @@ public class gameBoard {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(Color.BEIGE);
         gc.setLineWidth(3);
+
         gc.strokeRect(tank.getX(), tank.getY(), tank.getImage().getWidth() + 4, tank.getImage().getHeight() + 6);
         gc.drawImage(tank.getImage(), tank.getX(), tank.getY());
 
@@ -126,12 +127,17 @@ public class gameBoard {
     private void updateGrenade() {
 
         tankPosition = tank.getImageName();
+        tank2Position = tank2.getImageName();
 
         List<GrenadeRight> grenadeRight = tank.getGrenadesR();
         List<GrenadeLeft> grenadeLeft = tank.getGrenadesL();
         List<GrenadeUp> grenadeUp = tank.getGrenadesU();
         List<GrenadeDown> grenadeDown = tank.getGrenadesD();
 
+        List<GrenadeRight> grenade2Right = tank2.getGrenadesR();
+        List<GrenadeLeft> grenade2Left = tank2.getGrenadesL();
+        List<GrenadeUp> grenade2Up = tank2.getGrenadesU();
+        List<GrenadeDown> grenade2Down = tank2.getGrenadesD();
 
         for (int i = 0; i < grenadeRight.size(); i++) {
             GrenadeRight grenade11 = grenadeRight.get(i);
@@ -165,6 +171,43 @@ public class gameBoard {
                 grenadeDown.remove(i);
             }
         }
+
+        for (int i = 0; i < grenade2Right.size(); i++) {
+            GrenadeRight grenade111 = grenade2Right.get(i);
+            if (grenade111.isVisible()) {
+                grenade111.moveRight();
+            } else {
+                grenade2Right.remove(i);
+            }
+        }
+
+        for (int i = 0; i < grenade2Left.size(); i++) {
+            GrenadeLeft grenade222 = grenade2Left.get(i);
+            if (grenade222.isVisible()) {
+                grenade222.moveLeft();
+            } else {
+                grenade2Left.remove(i);
+            }
+        }
+
+        for (int i = 0; i < grenade2Up.size(); i++) {
+            GrenadeUp grenade333 = grenade2Up.get(i);
+            if (grenade333.isVisible()) {
+                grenade333.moveUp();
+            } else {
+                grenade2Up.remove(i);
+            }
+        }
+
+        for (int i = 0; i < grenade2Down.size(); i++) {
+            GrenadeDown grenade444 = grenade2Down.get(i);
+            if (grenade444.isVisible()) {
+                grenade444.moveDown();
+            } else {
+                grenade2Down.remove(i);
+            }
+        }
+
 
     }
 
