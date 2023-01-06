@@ -16,6 +16,7 @@ public class Tank2 extends Entita {
     private List<Grenade2> grenades2;
     private String imageName;
     private String tank2Position;
+    public int HP = 3;
 
     public Tank2(int x, int y, String tank2Position) {
         super(x, y);
@@ -63,7 +64,7 @@ public class Tank2 extends Entita {
             }
 
             if (key == KeyCode.LEFT && isCollidingLeft == false) {
-                dx = -2;
+                dx = -3;
                 dy = 0;
                 loadImage("tank2Left.png");
                 imageName = "tank2Left.png";
@@ -75,7 +76,7 @@ public class Tank2 extends Entita {
             }
 
             if (key == KeyCode.RIGHT && isCollidingRight == false) {
-                dx = 2;
+                dx = 3;
                 dy = 0;
                 loadImage("tank2Right.png");
                 imageName = "tank2Right.png";
@@ -87,7 +88,7 @@ public class Tank2 extends Entita {
             }
 
             if (key == KeyCode.UP && isCollidingUp  == false)  {
-                dy = -2;
+                dy = -3;
                 dx = 0;
                 loadImage("tank2Up.png");
                 imageName = "tank2Up.png";
@@ -99,7 +100,7 @@ public class Tank2 extends Entita {
             }
 
             if (key == KeyCode.DOWN && isCollidingDown == false) {
-                dy = 2;
+                dy = 3;
                 dx = 0;
                 loadImage("tank2Down.png");
                 imageName = "tank2Down.png";

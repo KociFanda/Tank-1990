@@ -3,13 +3,16 @@ package com.example.tank_1990;
 public class Grenade2 extends Entita{
     private final int BOARD_WIDTH = 1200;
     private final int BOARD_HEIGHT = 800;
-    private final int GRENADE_SPEED = 5;
+    private final int GRENADE_SPEED = 9;
     private final String tank2Position;
     public Grenade2(int x, int y, String tank2Position) {
         super(x, y);
         this.tank2Position = tank2Position;
 
         initGrenade2(tank2Position);
+    }
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
     private void initGrenade2(String tank2Position) {

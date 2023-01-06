@@ -15,6 +15,7 @@ public class Tank extends Entita {
     private int dy;
     private List<Grenade> grenades;
     private String imageName;
+    public int HP = 3;
 
     public Tank(int x, int y) {
         super(x, y);
@@ -58,7 +59,7 @@ public class Tank extends Entita {
             }
 
             if (key == KeyCode.A && isCollidingLeft == false) {
-                dx = -2;
+                dx = -3;
                 dy = 0;
                 loadImage("tankLeft.png");
                 imageName = "tankLeft.png";
@@ -70,7 +71,7 @@ public class Tank extends Entita {
             }
 
             if (key == KeyCode.D && isCollidingRight == false) {
-                dx = 2;
+                dx = 3;
                 dy = 0;
                 loadImage("tankRight.png");
                 imageName = "tankRight.png";
@@ -82,7 +83,7 @@ public class Tank extends Entita {
             }
 
             if (key == KeyCode.W && isCollidingUp == false) {
-                dy = -2;
+                dy = -3;
                 dx = 0;
                 loadImage("tankUp.png");
                 imageName = "tankUp.png";
@@ -94,7 +95,7 @@ public class Tank extends Entita {
             }
 
             if (key == KeyCode.S && isCollidingDown == false) {
-                dy = 2;
+                dy = 3;
                 dx = 0;
                 loadImage("tankDown.png");
                 imageName = "tankDown.png";
