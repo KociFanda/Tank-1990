@@ -10,23 +10,19 @@ public class Tank2 extends Entita {
     public boolean isColliding = false;
     private int dx;
     private int dy;
-    private List<GrenadeRight> grenadesR;
-    private List<GrenadeLeft> grenadesL;
-    private List<GrenadeUp> grenadesU;
-    private List<GrenadeDown> grenadesD;
+    private List<Grenade2> grenades2;
     private String imageName;
+    private String tank2Position;
 
-    public Tank2(int x, int y) {
+    public Tank2(int x, int y, String tank2Position) {
         super(x, y);
-
+        this.tank2Position = tank2Position;
         initTank2();
     }
 
     private void initTank2() {
-        grenadesR = new ArrayList<>();
-        grenadesL = new ArrayList<>();
-        grenadesU = new ArrayList<>();
-        grenadesD = new ArrayList<>();
+        grenades2 = new ArrayList<>();
+
 
         loadImage("tank2Left.png");
         imageName = "tank2Left.png";
@@ -38,20 +34,8 @@ public class Tank2 extends Entita {
         y += dy;
     }
 
-    public List<GrenadeRight> getGrenadesR() {
-        return grenadesR;
-    }
-
-    public List<GrenadeLeft> getGrenadesL() {
-        return grenadesL;
-    }
-
-    public List<GrenadeUp> getGrenadesU() {
-        return grenadesU;
-    }
-
-    public List<GrenadeDown> getGrenadesD() {
-        return grenadesD;
+    public List<Grenade2> getGrenades2() {
+        return grenades2;
     }
 
     public void keyPressed(KeyEvent e, String tankPosition) {
@@ -75,35 +59,35 @@ public class Tank2 extends Entita {
                 }
             }
 
-            if (key == KeyCode.A) {
+            if (key == KeyCode.LEFT) {
                 dx = -2;
                 dy = 0;
                 loadImage("tank2Left.png");
-                imageName = "tankLeft.png";
+                imageName = "tank2Left.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.D) {
+            if (key == KeyCode.RIGHT) {
                 dx = 2;
                 dy = 0;
                 loadImage("tank2Right.png");
-                imageName = "tankRight.png";
+                imageName = "tank2Right.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.W) {
+            if (key == KeyCode.UP) {
                 dy = -2;
                 dx = 0;
                 loadImage("tank2Up.png");
-                imageName = "tankUp.png";
+                imageName = "tank2Up.png";
                 getImageDimensions();
             }
 
-            if (key == KeyCode.S) {
+            if (key == KeyCode.DOWN) {
                 dy = 2;
                 dx = 0;
                 loadImage("tank2Down.png");
-                imageName = "tankDown.png";
+                imageName = "tank2Down.png";
                 getImageDimensions();
             }
         }
@@ -114,38 +98,43 @@ public class Tank2 extends Entita {
     }
 
     public void fireRight() {
-        grenadesR.add(new GrenadeRight(x + width, y + height / 2));
+        grenades2.add(new Grenade2(x + width, y + height / 2, imageName));
     }
 
     public void fireLeft() {
-        grenadesL.add(new GrenadeLeft(x - width / 2, y + height / 2));
+        grenades2.add(new Grenade2(x - width / 2, y + height / 2, imageName));
     }
 
     public void fireUp() {
-        grenadesU.add(new GrenadeUp(x + width / 2, y - height / 2));
+        grenades2.add(new Grenade2(x + width / 2, y - height / 2, imageName));
     }
 
     public void fireDown() {
-        grenadesD.add(new GrenadeDown(x + width / 2, y + height));
+        grenades2.add(new Grenade2(x + width / 2, y + height, imageName));
     }
 
     public void keyReleased(KeyEvent e) {
         KeyCode key = e.getCode();
-        if (key == KeyCode.A) {
+        if (key == KeyCode.LEFT) {
             dx = 0;
         }
 
-        if (key == KeyCode.D) {
+        if (key == KeyCode.RIGHT) {
             dx = 0;
         }
 
-        if (key == KeyCode.W) {
+        if (key == KeyCode.UP) {
             dy = 0;
         }
 
-        if (key == KeyCode.S) {
+        if (key == KeyCode.DOWN) {
             dy = 0;
         }
+
+        if (key == KeyCode.ESCAPE) {
+            System.exit(0);
+        }
+
     }
 
     public int getDx() {
