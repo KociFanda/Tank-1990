@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tank extends Entita {
-    public boolean isColliding = false;
+    public boolean isCollidingUp = false;
+    public boolean isCollidingDown = false;
+    public boolean isCollidingLeft = false;
+    public boolean isCollidingRight = false;
     private int dx;
     private int dy;
-    private List<GrenadeRight> grenadesR;
-    private List<GrenadeLeft> grenadesL;
-    private List<GrenadeUp> grenadesU;
-    private List<GrenadeDown> grenadesD;
+    private List<Grenade> grenades;
     private String imageName;
 
     public Tank(int x, int y) {
@@ -23,10 +23,7 @@ public class Tank extends Entita {
     }
 
     private void initTank() {
-        grenadesR = new ArrayList<>();
-        grenadesL = new ArrayList<>();
-        grenadesU = new ArrayList<>();
-        grenadesD = new ArrayList<>();
+        grenades = new ArrayList<>();
 
         loadImage("tankLeft.png");
         imageName = "tankLeft.png";
@@ -38,28 +35,13 @@ public class Tank extends Entita {
         y += dy;
     }
 
-    public List<GrenadeRight> getGrenadesR() {
-        return grenadesR;
+    public List<Grenade> getGrenades() {
+        return grenades;
     }
 
-    public List<GrenadeLeft> getGrenadesL() {
-        return grenadesL;
-    }
 
-    public List<GrenadeUp> getGrenadesU() {
-        return grenadesU;
-    }
-
-    public List<GrenadeDown> getGrenadesD() {
-        return grenadesD;
-    }
-
-    public void keyPressed(KeyEvent e, String tankPosition) {
-
-        if (!isColliding) {
-
+    public void keyPressed(KeyEvent e, Tank tank, Tank2 tank2) {
             KeyCode key = e.getCode();
-
             if (key == KeyCode.SPACE) {
                 if (imageName == "tankRight.png") {
                     fireRight();
@@ -75,75 +57,91 @@ public class Tank extends Entita {
                 }
             }
 
-            if (key == KeyCode.LEFT) {
+            if (key == KeyCode.A && isCollidingLeft == false) {
                 dx = -2;
                 dy = 0;
-                loadImage("/tankLeft.png");
+                loadImage("tankLeft.png");
                 imageName = "tankLeft.png";
                 getImageDimensions();
+                isCollidingRight= false;
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
             }
 
-            if (key == KeyCode.RIGHT) {
+            if (key == KeyCode.D && isCollidingRight == false) {
                 dx = 2;
                 dy = 0;
                 loadImage("tankRight.png");
                 imageName = "tankRight.png";
                 getImageDimensions();
+                isCollidingRight= false;
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
             }
 
-            if (key == KeyCode.UP) {
+            if (key == KeyCode.W && isCollidingUp == false) {
                 dy = -2;
                 dx = 0;
                 loadImage("tankUp.png");
                 imageName = "tankUp.png";
                 getImageDimensions();
+                isCollidingRight= false;
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
             }
 
-            if (key == KeyCode.DOWN) {
+            if (key == KeyCode.S && isCollidingDown == false) {
                 dy = 2;
                 dx = 0;
                 loadImage("tankDown.png");
                 imageName = "tankDown.png";
                 getImageDimensions();
+                isCollidingRight= false;
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
             }
         }
-    }
+
 
     public String getImageName() {
         return imageName;
     }
 
     public void fireRight() {
-        grenadesR.add(new GrenadeRight(x + width, y + height / 2));
+        grenades.add(new Grenade(x + width, y + height / 2, imageName));
     }
 
     public void fireLeft() {
-        grenadesL.add(new GrenadeLeft(x - width / 2, y + height / 2));
+        grenades.add(new Grenade(x - width / 2, y + height / 2, imageName));
     }
 
     public void fireUp() {
-        grenadesU.add(new GrenadeUp(x + width / 2, y - height / 2));
+        grenades.add(new Grenade(x + width / 2, y - height / 2, imageName));
     }
 
     public void fireDown() {
-        grenadesD.add(new GrenadeDown(x + width / 2, y + height));
+        grenades.add(new Grenade(x + width / 2, y + height, imageName));
     }
 
     public void keyReleased(KeyEvent e) {
         KeyCode key = e.getCode();
-        if (key == KeyCode.LEFT) {
+        if (key == KeyCode.A) {
             dx = 0;
         }
 
-        if (key == KeyCode.RIGHT) {
+        if (key == KeyCode.D) {
             dx = 0;
         }
 
-        if (key == KeyCode.UP) {
+        if (key == KeyCode.W) {
             dy = 0;
         }
 
-        if (key == KeyCode.DOWN) {
+        if (key == KeyCode.S) {
             dy = 0;
         }
     }
@@ -163,4 +161,5 @@ public class Tank extends Entita {
     public void setDy(int dy) {
         this.dy = dy;
     }
+
 }

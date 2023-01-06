@@ -41,25 +41,22 @@ public class gameBoard {
 
 
     private void initBoard() {
-
-
         canvas.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                tank.keyPressed(keyEvent, tankPosition);
-                tank2.keyPressed(keyEvent, tank2Position);
-            }
-        });
+                tank.keyPressed(keyEvent, tank, tank2);
+
+                tank2.keyPressed(keyEvent, tank, tank2);
+            }});
         canvas.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 tank.keyReleased(keyEvent);
                 tank2.keyReleased(keyEvent);
-            }
-        });
+            }});
 
         tank = new Tank(ITANK_X, ITANK_Y);
-        tank2 = new Tank2(500,600);
+        tank2 = new Tank2(500,600, tank2Position);
         this.handle();
     }
 
@@ -69,6 +66,8 @@ public class gameBoard {
 
 
     private void step() {
+        tankPosition = tank.getImageName();
+        tank2Position = tank2.getImageName();
         this.updateGrenade();
         this.updateTank();
         this.updateTank2();
@@ -84,164 +83,161 @@ public class gameBoard {
         gc.strokeRect(tank2.getX(), tank2.getY(), tank2.getImage().getWidth() + 4, tank2.getImage().getHeight() + 6);
         gc.drawImage(tank2.getImage(), tank2.getX(), tank2.getY());
 
-        List<GrenadeRight> grenadeR = tank.getGrenadesR();
+        List<Grenade> grenadeR = tank.getGrenades();
         for (int i = 0; i < grenadeR.size(); i++) {
-            GrenadeRight grenade1 = grenadeR.get(i);
-            gc.setStroke(Color.BEIGE);
-            gc.setLineWidth(1);
-            gc.strokeLine(grenade1.getX() - 3, grenade1.getY(), grenade1.getX() - 3, grenade1.getY() + grenade1.height);
+            Grenade grenade1 = grenadeR.get(i);
             gc.drawImage(grenade1.getImage(), grenade1.getX(), grenade1.getY());
         }
 
-        List<GrenadeLeft> grenadeL = tank.getGrenadesL();
+        List<Grenade> grenadeL = tank.getGrenades();
         for (int i = 0; i < grenadeL.size(); i++) {
-            GrenadeLeft grenade2 = grenadeL.get(i);
-            gc.setStroke(Color.BEIGE);
-            gc.setLineWidth(1);
-            gc.strokeLine(grenade2.getX() - 3, grenade2.getY(), grenade2.getX() - 3, grenade2.getY() + grenade2.height);
+            Grenade grenade2 = grenadeL.get(i);
             gc.drawImage(grenade2.getImage(), grenade2.getX(), grenade2.getY());
         }
 
-        List<GrenadeUp> grenadeU = tank.getGrenadesU();
+        List<Grenade> grenadeU = tank.getGrenades();
         for (int i = 0; i < grenadeU.size(); i++) {
-            GrenadeUp grenade3 = grenadeU.get(i);
-            gc.setStroke(Color.BEIGE);
-            gc.setLineWidth(1);
-            gc.strokeLine(grenade3.getX() - 3, grenade3.getY(), grenade3.getX() - 3, grenade3.getY() + grenade3.height);
+            Grenade grenade3 = grenadeU.get(i);
             gc.drawImage(grenade3.getImage(), grenade3.getX(), grenade3.getY());
         }
 
-        List<GrenadeDown> grenadeD = tank.getGrenadesD();
+        List<Grenade> grenadeD = tank.getGrenades();
         for (int i = 0; i < grenadeD.size(); i++) {
-            GrenadeDown grenade4 = grenadeD.get(i);
-            gc.setStroke(Color.BEIGE);
-            gc.setLineWidth(1);
-            gc.strokeLine(grenade4.getX() - 3, grenade4.getY(), grenade4.getX() - 3, grenade4.getY() + grenade4.height);
+            Grenade grenade4 = grenadeD.get(i);
             gc.drawImage(grenade4.getImage(), grenade4.getX(), grenade4.getY());
         }
 
+        List<Grenade2> grenade2R = tank2.getGrenades2();
+        for (int i = 0; i < grenade2R.size(); i++) {
+            Grenade2 grenadeDruhéhotanku1 = grenade2R.get(i);
+            gc.drawImage(grenadeDruhéhotanku1.getImage(), grenadeDruhéhotanku1.getX(), grenadeDruhéhotanku1.getY());
+        }
+
+        List<Grenade2> grenade2L = tank2.getGrenades2();
+        for (int i = 0; i < grenade2L.size(); i++) {
+            Grenade2 grenadeDruhéhotanku2 = grenade2L.get(i);
+            gc.drawImage(grenadeDruhéhotanku2.getImage(), grenadeDruhéhotanku2.getX(), grenadeDruhéhotanku2.getY());
+        }
+
+        List<Grenade2> grenade2U = tank2.getGrenades2();
+        for (int i = 0; i < grenade2U.size(); i++) {
+            Grenade2 grenadeDruhéhotanku3 = grenade2U.get(i);
+            gc.drawImage(grenadeDruhéhotanku3.getImage(), grenadeDruhéhotanku3.getX(), grenadeDruhéhotanku3.getY());
+        }
+
+        List<Grenade2> grenade2D = tank2.getGrenades2();
+        for (int i = 0; i < grenade2D.size(); i++) {
+            Grenade2 grenadeDruhéhotanku4 = grenade2D.get(i);
+            gc.drawImage(grenadeDruhéhotanku4.getImage(), grenadeDruhéhotanku4.getX(), grenadeDruhéhotanku4.getY());
+        }
     }
-
-
-
     private void updateGrenade() {
 
         tankPosition = tank.getImageName();
         tank2Position = tank2.getImageName();
 
-        List<GrenadeRight> grenadeRight = tank.getGrenadesR();
-        List<GrenadeLeft> grenadeLeft = tank.getGrenadesL();
-        List<GrenadeUp> grenadeUp = tank.getGrenadesU();
-        List<GrenadeDown> grenadeDown = tank.getGrenadesD();
+        List<Grenade> grenade = tank.getGrenades();
+        List<Grenade2> grenade2 = tank2.getGrenades2();
 
-        List<GrenadeRight> grenade2Right = tank2.getGrenadesR();
-        List<GrenadeLeft> grenade2Left = tank2.getGrenadesL();
-        List<GrenadeUp> grenade2Up = tank2.getGrenadesU();
-        List<GrenadeDown> grenade2Down = tank2.getGrenadesD();
-
-        for (int i = 0; i < grenadeRight.size(); i++) {
-            GrenadeRight grenade11 = grenadeRight.get(i);
+        for (int i = 0; i < grenade.size(); i++) {
+            Grenade grenade11 = grenade.get(i);
             if (grenade11.isVisible()) {
-                grenade11.moveRight();
+
+                grenade11.move();
             } else {
-                grenadeRight.remove(i);
+                grenade.remove(i);
+            }
+            if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent())) {
+                grenade.remove(grenade.get(i));
+                System.out.println("hit 2");
             }
         }
-        for (int i = 0; i < grenadeLeft.size(); i++) {
-            GrenadeLeft grenade22 = grenadeLeft.get(i);
+
+        for (int i = grenade2.size() - 1; i >= 0; i--) {
+            Grenade2 grenade22 = grenade2.get(i);
             if (grenade22.isVisible()) {
-                grenade22.moveLeft();
-            } else {
-                grenadeLeft.remove(i);
-            }
-        }
-        for (int i = 0; i < grenadeUp.size(); i++) {
-            GrenadeUp grenade33 = grenadeUp.get(i);
-            if (grenade33.isVisible()) {
-                grenade33.moveUp();
-            } else {
-                grenadeUp.remove(i);
-            }
-        }
-        for (int i = 0; i < grenadeDown.size(); i++) {
-            GrenadeDown grenade44 = grenadeDown.get(i);
-            if (grenade44.isVisible()) {
-                grenade44.moveDown();
-            } else {
-                grenadeDown.remove(i);
-            }
-        }
 
-        for (int i = 0; i < grenade2Right.size(); i++) {
-            GrenadeRight grenade111 = grenade2Right.get(i);
-            if (grenade111.isVisible()) {
-                grenade111.moveRight();
+                grenade22.move();
             } else {
-                grenade2Right.remove(i);
+                grenade2.remove(grenade2.get(i));
+            }
+            if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent())) {
+                grenade2.remove(grenade2.get(i));
+                System.out.println("hit 1");
             }
         }
-
-        for (int i = 0; i < grenade2Left.size(); i++) {
-            GrenadeLeft grenade222 = grenade2Left.get(i);
-            if (grenade222.isVisible()) {
-                grenade222.moveLeft();
-            } else {
-                grenade2Left.remove(i);
-            }
-        }
-
-        for (int i = 0; i < grenade2Up.size(); i++) {
-            GrenadeUp grenade333 = grenade2Up.get(i);
-            if (grenade333.isVisible()) {
-                grenade333.moveUp();
-            } else {
-                grenade2Up.remove(i);
-            }
-        }
-
-        for (int i = 0; i < grenade2Down.size(); i++) {
-            GrenadeDown grenade444 = grenade2Down.get(i);
-            if (grenade444.isVisible()) {
-                grenade444.moveDown();
-            } else {
-                grenade2Down.remove(i);
-            }
-        }
-
-
     }
 
 
     private void updateTank() {
-        checkCollision();
         tank.move();
+        checkCollisionTank();
     }
     private void updateTank2() {
-        checkCollision();
         tank2.move();
+        checkCollisionTank2();
     }
-
-    private void checkCollision() {
+    public void checkCollisionTank() {
         if (tank.getRect().getBoundsInParent().intersects(tank2.getRect().getBoundsInParent())) {
             tank.setDx(0);
             tank.setDy(0);
-            tank.isColliding = true;
+
             if (tankPosition.equals("tankUp.png")) {
-                tank.setY(tank.getY() + 1);
+                tank.isCollidingUp = true;
+                tank.isCollidingDown = false;
+                tank.isCollidingLeft = false;
+                tank.isCollidingRight = false;
             }
             if (tankPosition.equals("tankDown.png")) {
-                tank.setY(tank.getY() - 1);
+                tank.isCollidingDown = true;
+                tank.isCollidingLeft = false;
+                tank.isCollidingRight = false;
+                tank.isCollidingUp = false;
             }
             if (tankPosition.equals("tankLeft.png")) {
-                tank.setX(tank.getX() + 1);
+                tank.isCollidingLeft = true;
+                tank.isCollidingRight = false;
+                tank.isCollidingUp = false;
+                tank.isCollidingDown = false;
             }
             if (tankPosition.equals("tankRight.png")) {
-                tank.setX(tank.getX() - 1);
+                tank.isCollidingRight = true;
+                tank.isCollidingUp = false;
+                tank.isCollidingDown = false;
+                tank.isCollidingLeft = false;
             }
         }
-        else{
-            tank.isColliding = false;
+    }
+        public void checkCollisionTank2() {
+      if (tank2.getRect().getBoundsInParent().intersects(tank.getRect().getBoundsInParent()) ) {
+
+            tank2.setDx(0);
+            tank2.setDy(0);
+        if (tank2Position.equals("tank2Up.png")) {
+            tank2.isCollidingUp= true;
+            tank2.isCollidingDown= false;
+            tank2.isCollidingLeft= false;
+            tank2.isCollidingRight= false;
         }
+        if (tank2Position.equals("tank2Down.png")) {
+            tank2.isCollidingDown= true;
+            tank2.isCollidingLeft= false;
+            tank2.isCollidingRight= false;
+            tank2.isCollidingUp= false;
+        }
+        if (tank2Position.equals("tank2Left.png")) {
+            tank2.isCollidingLeft= true;
+            tank2.isCollidingRight= false;
+            tank2.isCollidingUp= false;
+            tank2.isCollidingDown= false;
+        }
+        if (tank2Position.equals("tank2Right.png")) {
+            tank2.isCollidingRight= true;
+            tank2.isCollidingUp= false;
+            tank2.isCollidingDown= false;
+            tank2.isCollidingLeft= false;}
+      }
+        }
+
     }
 
-}

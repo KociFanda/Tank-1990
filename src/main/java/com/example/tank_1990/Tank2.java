@@ -7,26 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tank2 extends Entita {
-    public boolean isColliding = false;
+    public boolean isCollidingUp = false;
+    public boolean isCollidingDown = false;
+    public boolean isCollidingLeft = false;
+    public boolean isCollidingRight = false;
     private int dx;
     private int dy;
-    private List<GrenadeRight> grenadesR;
-    private List<GrenadeLeft> grenadesL;
-    private List<GrenadeUp> grenadesU;
-    private List<GrenadeDown> grenadesD;
+    private List<Grenade2> grenades2;
     private String imageName;
+    private String tank2Position;
 
-    public Tank2(int x, int y) {
+    public Tank2(int x, int y, String tank2Position) {
         super(x, y);
-
+        this.tank2Position = tank2Position;
         initTank2();
     }
 
     private void initTank2() {
-        grenadesR = new ArrayList<>();
-        grenadesL = new ArrayList<>();
-        grenadesU = new ArrayList<>();
-        grenadesD = new ArrayList<>();
+        grenades2 = new ArrayList<>();
+
 
         loadImage("tank2Left.png");
         imageName = "tank2Left.png";
@@ -38,25 +37,13 @@ public class Tank2 extends Entita {
         y += dy;
     }
 
-    public List<GrenadeRight> getGrenadesR() {
-        return grenadesR;
+    public List<Grenade2> getGrenades2() {
+        return grenades2;
     }
 
-    public List<GrenadeLeft> getGrenadesL() {
-        return grenadesL;
-    }
+    public void keyPressed(KeyEvent e, Tank tank, Tank2 tank2) {
 
-    public List<GrenadeUp> getGrenadesU() {
-        return grenadesU;
-    }
 
-    public List<GrenadeDown> getGrenadesD() {
-        return grenadesD;
-    }
-
-    public void keyPressed(KeyEvent e, String tankPosition) {
-
-        if (!isColliding) {
 
             KeyCode key = e.getCode();
 
@@ -75,77 +62,98 @@ public class Tank2 extends Entita {
                 }
             }
 
-            if (key == KeyCode.A) {
+            if (key == KeyCode.LEFT && isCollidingLeft == false) {
                 dx = -2;
                 dy = 0;
                 loadImage("tank2Left.png");
-                imageName = "tankLeft.png";
+                imageName = "tank2Left.png";
                 getImageDimensions();
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
+                isCollidingRight= false;
             }
 
-            if (key == KeyCode.D) {
+            if (key == KeyCode.RIGHT && isCollidingRight == false) {
                 dx = 2;
                 dy = 0;
                 loadImage("tank2Right.png");
-                imageName = "tankRight.png";
+                imageName = "tank2Right.png";
                 getImageDimensions();
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
+                isCollidingRight= false;
             }
 
-            if (key == KeyCode.W) {
+            if (key == KeyCode.UP && isCollidingUp  == false)  {
                 dy = -2;
                 dx = 0;
                 loadImage("tank2Up.png");
-                imageName = "tankUp.png";
+                imageName = "tank2Up.png";
                 getImageDimensions();
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
+                isCollidingRight= false;
             }
 
-            if (key == KeyCode.S) {
+            if (key == KeyCode.DOWN && isCollidingDown == false) {
                 dy = 2;
                 dx = 0;
                 loadImage("tank2Down.png");
-                imageName = "tankDown.png";
+                imageName = "tank2Down.png";
                 getImageDimensions();
+                isCollidingUp= false;
+                isCollidingDown= false;
+                isCollidingLeft= false;
+                isCollidingRight= false;
             }
         }
-    }
+
 
     public String getImageName() {
         return imageName;
     }
 
     public void fireRight() {
-        grenadesR.add(new GrenadeRight(x + width, y + height / 2));
+        grenades2.add(new Grenade2(x + width, y + height / 2, imageName));
     }
 
     public void fireLeft() {
-        grenadesL.add(new GrenadeLeft(x - width / 2, y + height / 2));
+        grenades2.add(new Grenade2(x - width / 2, y + height / 2, imageName));
     }
 
     public void fireUp() {
-        grenadesU.add(new GrenadeUp(x + width / 2, y - height / 2));
+        grenades2.add(new Grenade2(x + width / 2, y - height / 2, imageName));
     }
 
     public void fireDown() {
-        grenadesD.add(new GrenadeDown(x + width / 2, y + height));
+        grenades2.add(new Grenade2(x + width / 2, y + height, imageName));
     }
 
     public void keyReleased(KeyEvent e) {
         KeyCode key = e.getCode();
-        if (key == KeyCode.A) {
+        if (key == KeyCode.LEFT) {
             dx = 0;
         }
 
-        if (key == KeyCode.D) {
+        if (key == KeyCode.RIGHT) {
             dx = 0;
         }
 
-        if (key == KeyCode.W) {
+        if (key == KeyCode.UP) {
             dy = 0;
         }
 
-        if (key == KeyCode.S) {
+        if (key == KeyCode.DOWN) {
             dy = 0;
         }
+
+        if (key == KeyCode.ESCAPE) {
+            System.exit(0);
+        }
+
     }
 
     public int getDx() {

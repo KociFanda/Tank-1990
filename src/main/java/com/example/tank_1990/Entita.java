@@ -30,7 +30,7 @@ public class Entita {
         height = (int) image.getHeight();
     }
      public Rectangle getRect(){
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x, y, width+2, height+2);
      }
 
     public void setX(int x) {
