@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -19,42 +20,43 @@ public class gameBoard {
     public Tank tank;
     public Tank2 tank2;
     private Canvas canvas;
+    private int body1;
+    private int body2;
+    Image background = new Image("background.png");
+    Font Můjfont = new Font("Arial", 20);
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
     String tankPosition;
     String tank2Position;
 
     public gameBoard() {
-        this.canvas = new Canvas(1200, 800);
+        this.canvas = new Canvas(1200, 1000);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        gc.setFill(Color.BEIGE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        //gc.setFill(Color.BEIGE);
+        gc.drawImage(background, 0, 0);
+       // gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         initBoard();
     }
 
     private void handle() {
         timeline.setCycleCount(Timeline.INDEFINITE);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        gc.setFill(Color.BEIGE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        //gc.setFill(Color.BEIGE);
+        gc.drawImage(background, 0, 0);
+        //  gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timeline.play();
     }
 
 
     private void initBoard() {
-        canvas.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                tank.keyPressed(keyEvent, tank, tank2);
+        canvas.setOnKeyPressed(keyEvent -> {
+            tank.keyPressed(keyEvent, tank, tank2);
 
-                tank2.keyPressed(keyEvent, tank, tank2);
-            }
+            tank2.keyPressed(keyEvent, tank, tank2);
         });
-        canvas.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                tank.keyReleased(keyEvent);
-                tank2.keyReleased(keyEvent);
-            }
+        canvas.setOnKeyReleased(keyEvent -> {
+            tank.keyReleased(keyEvent);
+            tank2.keyReleased(keyEvent);
         });
 
         tank = new Tank(ITANK_X, ITANK_Y);
@@ -71,22 +73,31 @@ public class gameBoard {
         tankPosition = tank.getImageName();
         tank2Position = tank2.getImageName();
         this.updateGrenade();
+
         if (isTankDead() == false){this.updateTank();}
         if (isTank2Dead() == false){this.updateTank2();}
 
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.BEIGE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setStroke(Color.BEIGE);
-        gc.setLineWidth(3);
+        gc.setFont(Můjfont);
+
+        //gc.setFill(Color.BEIGE);
+        gc.drawImage(background, 0, 0);
+        //gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         if (isTankDead() == false) {
-            gc.strokeRect(tank.getX(), tank.getY(), tank.getImage().getWidth() + 4, tank.getImage().getHeight() + 6);
+            gc.setStroke(Color.BEIGE);
             gc.drawImage(tank.getImage(), tank.getX(), tank.getY());
+            gc.setStroke(Color.GRAY);
+            gc.strokeText("Player 1\nBody " + body1, tank.getX(), tank.getY() - 28);
         }
         if (isTank2Dead() == false) {
-            gc.strokeRect(tank2.getX(), tank2.getY(), tank2.getImage().getWidth() + 4, tank2.getImage().getHeight() + 6);
+            gc.setStroke(Color.BEIGE);
+
             gc.drawImage(tank2.getImage(), tank2.getX(), tank2.getY());
+            gc.setStroke(Color.GRAY);
+            gc.strokeText("Player 2 \nBody " + body2, tank2.getX(), tank2.getY() -28);
+
         }
         if (isTankDead() == false) {
             List<Grenade> grenadeR = tank.getGrenades();
@@ -147,38 +158,40 @@ public class gameBoard {
         tank2Position = tank2.getImageName();
         List<Grenade> grenade = tank.getGrenades();
         List<Grenade2> grenade2 = tank2.getGrenades2();
+            if(isTankDead()==false) {
+                for (int i = 0; i < grenade.size(); i++) {
+                    Grenade grenade11 = grenade.get(i);
+                    if (grenade11.isVisible()) {
+                        grenade11.move();
+                    } else {
+                        grenade.remove(i);
+                    }
+                    if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead() == false) {
+                        grenade.remove(grenade.get(i));
+                        System.out.println("Tank 1 trefil tank 2");
+                        tank2.HP = tank2.HP - 1;
 
+                        body1++;
+                    }
+                }
+            }
+        if (isTank2Dead() == false) {
+            for (int i = grenade2.size() - 1; i >= 0; i--) {
+                Grenade2 grenade22 = grenade2.get(i);
+                if (grenade22.isVisible()) {
 
-            for (int i = 0; i < grenade.size(); i++) {
-                Grenade grenade11 = grenade.get(i);
-                if (grenade11.isVisible()) {
-                    grenade11.move();
+                    grenade22.move();
                 } else {
-                    grenade.remove(i);
+                    grenade2.remove(grenade2.get(i));
                 }
-                if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead() == false ) {
-                    grenade.remove(grenade.get(i));
-                    System.out.println("hit 2");
-                    tank2.HP = tank2.HP - 1;
+                if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent()) && isTankDead() == false) {
+                    grenade2.remove(grenade2.get(i));
+                    System.out.println("Tank 2 trefil tank 1");
+                    tank.HP = tank.HP - 1;
+                    body2++;
                 }
-            }
-
-
-        for (int i = grenade2.size() - 1; i >= 0; i--) {
-            Grenade2 grenade22 = grenade2.get(i);
-            if (grenade22.isVisible()) {
-
-                grenade22.move();
-            } else {
-                grenade2.remove(grenade2.get(i));
-            }
-            if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent())  && isTankDead() == false) {
-                grenade2.remove(grenade2.get(i));
-                System.out.println("hit 1");
-                tank.HP = tank.HP - 1;
             }
         }
-
     }
 
 

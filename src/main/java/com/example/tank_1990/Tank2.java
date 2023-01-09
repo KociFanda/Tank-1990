@@ -110,6 +110,9 @@ public class Tank2 extends Entita {
                 isCollidingLeft= false;
                 isCollidingRight= false;
             }
+        if(tank2.getX() <= 0){
+            tank2.setDx(5);
+        }
         }
 
 
