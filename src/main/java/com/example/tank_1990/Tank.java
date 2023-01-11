@@ -105,9 +105,7 @@ public class Tank extends Entita {
                 isCollidingDown= false;
                 isCollidingLeft= false;
             }
-        if(tank.getX() <= 0){
-            tank.setDx(0);
-        }
+
         }
 
 

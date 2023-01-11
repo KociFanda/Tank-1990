@@ -2,19 +2,15 @@ package com.example.tank_1990;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-
 import java.util.List;
 
 public class gameBoard {
-
     private final int ITANK_X = 40;
     private final int ITANK_Y = 60;
     public Tank tank;
@@ -25,33 +21,26 @@ public class gameBoard {
     Image background = new Image("background.png");
     Font Můjfont = new Font("Arial", 20);
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
-    String tankPosition;
-    String tank2Position;
+    String tankPosition, tank2Position;
+
 
     public gameBoard() {
         this.canvas = new Canvas(1200, 1000);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        //gc.setFill(Color.BEIGE);
         gc.drawImage(background, 0, 0);
-       // gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
         initBoard();
     }
 
     private void handle() {
         timeline.setCycleCount(Timeline.INDEFINITE);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        //gc.setFill(Color.BEIGE);
         gc.drawImage(background, 0, 0);
-        //  gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timeline.play();
     }
-
 
     private void initBoard() {
         canvas.setOnKeyPressed(keyEvent -> {
             tank.keyPressed(keyEvent, tank, tank2);
-
             tank2.keyPressed(keyEvent, tank, tank2);
         });
         canvas.setOnKeyReleased(keyEvent -> {
@@ -64,10 +53,7 @@ public class gameBoard {
         this.handle();
     }
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
+    public Canvas getCanvas() {return canvas;}
 
     private void step() {
         tankPosition = tank.getImageName();
@@ -80,22 +66,19 @@ public class gameBoard {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFont(Můjfont);
-
-        //gc.setFill(Color.BEIGE);
         gc.drawImage(background, 0, 0);
-        //gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         if (isTankDead() == false) {
             gc.setStroke(Color.BEIGE);
             gc.drawImage(tank.getImage(), tank.getX(), tank.getY());
-            gc.setStroke(Color.GRAY);
+            gc.setStroke(Color.WHITE);
             gc.strokeText("Player 1\nBody " + body1, tank.getX(), tank.getY() - 28);
         }
         if (isTank2Dead() == false) {
             gc.setStroke(Color.BEIGE);
 
             gc.drawImage(tank2.getImage(), tank2.getX(), tank2.getY());
-            gc.setStroke(Color.GRAY);
+            gc.setStroke(Color.WHITE);
             gc.strokeText("Player 2 \nBody " + body2, tank2.getX(), tank2.getY() -28);
 
         }
@@ -194,81 +177,15 @@ public class gameBoard {
         }
     }
 
-
     private void updateTank() {
         tank.move();
         if (isTank2Dead() ==false){
-        checkCollisionTank();}
+       com.example.tank_1990.Utills.Tools.checkCollisionTank(tank, tank2,tankPosition);}
     }
-
     private void updateTank2() {
         tank2.move();
         if (isTankDead() ==false){
-        checkCollisionTank2();}
-    }
-
-    public void checkCollisionTank() {
-        if (tank.getRect().getBoundsInParent().intersects(tank2.getRect().getBoundsInParent())) {
-            tank.setDx(0);
-            tank.setDy(0);
-
-            if (tankPosition.equals("tankUp.png")) {
-                tank.isCollidingUp = true;
-                tank.isCollidingDown = false;
-                tank.isCollidingLeft = false;
-                tank.isCollidingRight = false;
-            }
-            if (tankPosition.equals("tankDown.png")) {
-                tank.isCollidingDown = true;
-                tank.isCollidingLeft = false;
-                tank.isCollidingRight = false;
-                tank.isCollidingUp = false;
-            }
-            if (tankPosition.equals("tankLeft.png")) {
-                tank.isCollidingLeft = true;
-                tank.isCollidingRight = false;
-                tank.isCollidingUp = false;
-                tank.isCollidingDown = false;
-            }
-            if (tankPosition.equals("tankRight.png")) {
-                tank.isCollidingRight = true;
-                tank.isCollidingUp = false;
-                tank.isCollidingDown = false;
-                tank.isCollidingLeft = false;
-            }
-        }
-    }
-
-    public void checkCollisionTank2() {
-        if (tank2.getRect().getBoundsInParent().intersects(tank.getRect().getBoundsInParent())) {
-
-            tank2.setDx(0);
-            tank2.setDy(0);
-            if (tank2Position.equals("tank2Up.png")) {
-                tank2.isCollidingUp = true;
-                tank2.isCollidingDown = false;
-                tank2.isCollidingLeft = false;
-                tank2.isCollidingRight = false;
-            }
-            if (tank2Position.equals("tank2Down.png")) {
-                tank2.isCollidingDown = true;
-                tank2.isCollidingLeft = false;
-                tank2.isCollidingRight = false;
-                tank2.isCollidingUp = false;
-            }
-            if (tank2Position.equals("tank2Left.png")) {
-                tank2.isCollidingLeft = true;
-                tank2.isCollidingRight = false;
-                tank2.isCollidingUp = false;
-                tank2.isCollidingDown = false;
-            }
-            if (tank2Position.equals("tank2Right.png")) {
-                tank2.isCollidingRight = true;
-                tank2.isCollidingUp = false;
-                tank2.isCollidingDown = false;
-                tank2.isCollidingLeft = false;
-            }
-        }
+            com.example.tank_1990.Utills.Tools.checkCollisionTank2(tank2, tank,tank2Position);}
     }
 
     public boolean isTankDead() {
@@ -278,7 +195,6 @@ public class gameBoard {
             return false;
         }
     }
-
     public boolean isTank2Dead() {
         if (tank2.HP <= 0) {
             return true;

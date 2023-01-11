@@ -16,8 +16,7 @@ public class StartGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Tank1990");
-        //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 820, 640);
+
         gameBoard board = new gameBoard();
         Scene scene = new Scene(new Pane(board.getCanvas()));
         board.getCanvas().requestFocus();
