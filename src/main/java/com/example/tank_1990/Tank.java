@@ -2,7 +2,6 @@ package com.example.tank_1990;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class Tank extends Entita {
     }
 
 
-    public void keyPressed(KeyEvent e, Tank tank, Tank2 tank2) {
+    public void keyPressed(KeyEvent e) {
             KeyCode key = e.getCode();
             if (key == KeyCode.SPACE) {
                 if (imageName == "tankRight.png") {
@@ -108,7 +107,6 @@ public class Tank extends Entita {
 
         }
 
-
     public String getImageName() {
         return imageName;
     }
@@ -164,4 +162,7 @@ public class Tank extends Entita {
         this.dy = dy;
     }
 
+    public int getHP() {
+        return HP;
+    }
 }

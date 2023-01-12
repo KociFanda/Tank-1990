@@ -2,7 +2,6 @@ package com.example.tank_1990;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +14,12 @@ public class Tank2 extends Entita {
     private int dy;
     private List<Grenade2> grenades2;
     private String imageName;
-    private String tank2Position;
     public int HP = 3;
 
-    public Tank2(int x, int y, String tank2Position) {
+
+
+    public Tank2(int x, int y) {
         super(x, y);
-        this.tank2Position = tank2Position;
         initTank2();
     }
 
@@ -42,9 +41,7 @@ public class Tank2 extends Entita {
         return grenades2;
     }
 
-    public void keyPressed(KeyEvent e, Tank tank, Tank2 tank2) {
-
-
+    public void keyPressed(KeyEvent e) {
 
             KeyCode key = e.getCode();
 
@@ -63,7 +60,7 @@ public class Tank2 extends Entita {
                 }
             }
 
-            if (key == KeyCode.LEFT && isCollidingLeft == false) {
+            if (key == KeyCode.LEFT && !isCollidingLeft) {
                 dx = -3;
                 dy = 0;
                 loadImage("tank2Left.png");
@@ -75,7 +72,7 @@ public class Tank2 extends Entita {
                 isCollidingRight= false;
             }
 
-            if (key == KeyCode.RIGHT && isCollidingRight == false) {
+            if (key == KeyCode.RIGHT && !isCollidingRight) {
                 dx = 3;
                 dy = 0;
                 loadImage("tank2Right.png");
@@ -87,7 +84,7 @@ public class Tank2 extends Entita {
                 isCollidingRight= false;
             }
 
-            if (key == KeyCode.UP && isCollidingUp  == false)  {
+            if (key == KeyCode.UP && !isCollidingUp)  {
                 dy = -3;
                 dx = 0;
                 loadImage("tank2Up.png");
@@ -99,7 +96,7 @@ public class Tank2 extends Entita {
                 isCollidingRight= false;
             }
 
-            if (key == KeyCode.DOWN && isCollidingDown == false) {
+            if (key == KeyCode.DOWN && !isCollidingDown) {
                 dy = 3;
                 dx = 0;
                 loadImage("tank2Down.png");
@@ -111,7 +108,6 @@ public class Tank2 extends Entita {
                 isCollidingRight= false;
             }
         }
-
 
     public String getImageName() {
         return imageName;
@@ -160,16 +156,16 @@ public class Tank2 extends Entita {
     public int getDx() {
         return dx;
     }
-
     public void setDx(int dx) {
         this.dx = dx;
     }
-
     public int getDy() {
         return dy;
     }
-
     public void setDy(int dy) {
         this.dy = dy;
+    }
+    public int getHP() {
+        return HP;
     }
 }

@@ -35,38 +35,6 @@ public class Grenade extends Entita{
 
     }
 
-    public void moveDown() {
-
-        System.out.println("funguju");
-        y += GRENADE_SPEED;
-        System.out.println(y);
-        if (x > BOARD_HEIGHT) {
-            visible = false;
-        }
-    }
-    public void moveLeft() {
-        System.out.println("funguju");
-        x -= GRENADE_SPEED;
-        if (x > BOARD_WIDTH) {
-            visible = false;
-        }
-    }
-    public void moveRight() {
-        System.out.println("funguju");
-        x += GRENADE_SPEED;
-        if (x > BOARD_WIDTH) {
-            visible = false;
-        }
-    }
-    public void moveUp() {
-        System.out.println("funguju");
-        y -= GRENADE_SPEED;
-        if (x > BOARD_HEIGHT) {
-            visible = false;
-        }
-
-    }
-
     public void move() {
         if(tankPosition == "tankDown.png"){
             y += GRENADE_SPEED;
