@@ -44,13 +44,13 @@ public class Grenade extends Entita{
         }
         else if(tankPosition == "tankUp.png"){
             y -= GRENADE_SPEED;
-            if (y < 0) {
+            if (y + height < 0) {
                 visible = false;
             }
         }
         else if (tankPosition == "tankLeft.png"){
             x -= GRENADE_SPEED;
-            if (x < 0) {
+            if (x + width  < 0) {
                 visible = false;
             }
         }

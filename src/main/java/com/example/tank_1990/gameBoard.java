@@ -24,7 +24,7 @@ public class gameBoard {
     private int respawnTimer=1000;
     Image background = new Image("background.png");
     Font Mujfont = new Font("Arial", 20);
-    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
+    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(7), e -> step()));
     String tankPosition, tank2Position;
     Rectangle barak = new Rectangle(0, 258, 70, 163);
     public int fireCooldown =10;
@@ -158,16 +158,19 @@ public class gameBoard {
                     if (grenade11.isVisible()) {
                         grenade11.move();
                         fireCooldown =10;
-                    } else {grenade.remove(i);}
-
+                    }
                     if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead()) {
                         grenade.remove(grenade.get(i));
                         System.out.println("Tank 1 trefil tank 2");
                         tank2.HP = tank2.HP - 1;
                         zivoty2--;
                     }
-                }
+                    if (grenade.get(i).getRect().intersects(barak.getBoundsInParent())) {
+                        grenade.remove(grenade.get(i));
+                    }
+                    }
             }
+
         if (isTank2Dead()) {
             for (int i = grenade2.size() - 1; i >= 0; i--) {
                 Grenade2 grenade22 = grenade2.get(i);
@@ -180,6 +183,9 @@ public class gameBoard {
                     System.out.println("Tank 2 trefil tank 1");
                     tank.HP = tank.HP - 1;
                     zivoty1--;
+                }
+                if (grenade2.get(i).getRect().intersects(barak.getBoundsInParent())) {
+                    grenade2.remove(grenade2.get(i));
                 }
             }
         }
