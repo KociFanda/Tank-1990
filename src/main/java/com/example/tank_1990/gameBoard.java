@@ -27,11 +27,12 @@ public class gameBoard {
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
     String tankPosition, tank2Position;
     Rectangle barak = new Rectangle(0, 258, 70, 163);
+    public int fireCooldown =10;
     //Random rnd
 
 
     public gameBoard() {
-        this.canvas = new Canvas(1200, 600);
+        this.canvas = new Canvas(1200, 1000);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.drawImage(background, 0, 0);
         initBoard();
@@ -43,8 +44,9 @@ public class gameBoard {
     }
 
     private void initBoard() {
+
         canvas.setOnKeyPressed(keyEvent -> {
-            tank.keyPressed(keyEvent);
+            tank.keyPressed(keyEvent, fireCooldown);
             tank2.keyPressed(keyEvent);
         });
         canvas.setOnKeyReleased(keyEvent -> {
@@ -63,6 +65,7 @@ public class gameBoard {
         tankPosition = tank.getImageName();
         tank2Position = tank2.getImageName();
         this.updateGrenade();
+        fireCooldown--;
         if (isTankDead()){this.updateTank();}
         else{
             respawnTimer--;
@@ -79,8 +82,8 @@ public class gameBoard {
                 tank2.HP = 3;
                 respawnTimer=600;
                 zivoty2=3;
-                tank.setX(500);
-                tank.setY(500);
+                tank2.setX(500);
+                tank2.setY(500);
             }}
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -154,13 +157,13 @@ public class gameBoard {
                     Grenade grenade11 = grenade.get(i);
                     if (grenade11.isVisible()) {
                         grenade11.move();
+                        fireCooldown =10;
                     } else {grenade.remove(i);}
 
                     if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead()) {
                         grenade.remove(grenade.get(i));
                         System.out.println("Tank 1 trefil tank 2");
                         tank2.HP = tank2.HP - 1;
-
                         zivoty2--;
                     }
                 }

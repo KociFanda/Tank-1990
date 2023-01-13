@@ -46,6 +46,7 @@ public class Tank2 extends Entita {
             KeyCode key = e.getCode();
 
             if (key == KeyCode.SHIFT) {
+
                 if (imageName == "tank2Right.png") {
                     fireRight();
                 }

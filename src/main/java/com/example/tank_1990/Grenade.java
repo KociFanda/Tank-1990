@@ -2,7 +2,7 @@ package com.example.tank_1990;
 
 public class Grenade extends Entita{
     private final int BOARD_WIDTH = 1200;
-    private final int BOARD_HEIGHT = 800;
+    private final int BOARD_HEIGHT = 1000;
     private final int GRENADE_SPEED = 9;
     private final String tankPosition;
     public Grenade(int x, int y, String tankPosition) {
@@ -38,19 +38,19 @@ public class Grenade extends Entita{
     public void move() {
         if(tankPosition == "tankDown.png"){
             y += GRENADE_SPEED;
-            if (x > BOARD_HEIGHT) {
+            if (y > BOARD_HEIGHT) {
                 visible = false;
             }
         }
         else if(tankPosition == "tankUp.png"){
             y -= GRENADE_SPEED;
-            if (x > BOARD_HEIGHT) {
+            if (y < 0) {
                 visible = false;
             }
         }
         else if (tankPosition == "tankLeft.png"){
             x -= GRENADE_SPEED;
-            if (x > BOARD_WIDTH) {
+            if (x < 0) {
                 visible = false;
             }
         }

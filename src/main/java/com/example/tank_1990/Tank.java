@@ -40,9 +40,10 @@ public class Tank extends Entita {
     }
 
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e, int fireCooldown) {
             KeyCode key = e.getCode();
-            if (key == KeyCode.SPACE) {
+            if (key == KeyCode.SPACE && fireCooldown <= 0) {
+
                 if (imageName == "tankRight.png") {
                     fireRight();
                 }
