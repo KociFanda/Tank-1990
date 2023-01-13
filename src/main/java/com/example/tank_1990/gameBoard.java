@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import java.util.List;
@@ -20,14 +21,17 @@ public class gameBoard {
     private final Canvas canvas;
     private int zivoty1= 3;
     private int zivoty2= 3;
+    private int respawnTimer=1000;
     Image background = new Image("background.png");
     Font Mujfont = new Font("Arial", 20);
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> step()));
     String tankPosition, tank2Position;
+    Rectangle barak = new Rectangle(0, 258, 70, 163);
+    //Random rnd
 
 
     public gameBoard() {
-        this.canvas = new Canvas(1200, 1000);
+        this.canvas = new Canvas(1200, 600);
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.drawImage(background, 0, 0);
         initBoard();
@@ -59,14 +63,30 @@ public class gameBoard {
         tankPosition = tank.getImageName();
         tank2Position = tank2.getImageName();
         this.updateGrenade();
-
         if (isTankDead()){this.updateTank();}
-        if (isTank2Dead()){this.updateTank2();}
-
+        else{
+            respawnTimer--;
+        if (respawnTimer<=0){
+            tank.HP = 3;
+            respawnTimer=600;
+            zivoty1=3;
+            tank.setX(800);
+            tank.setY(800);
+        }}
+        if (isTank2Dead()){this.updateTank2();}  else{
+            respawnTimer--;
+            if (respawnTimer<=0){
+                tank2.HP = 3;
+                respawnTimer=600;
+                zivoty2=3;
+                tank.setX(500);
+                tank.setY(500);
+            }}
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFont(Mujfont);
         gc.drawImage(background, 0, 0);
+
 
         if (isTankDead()) {
             gc.setStroke(Color.BEIGE);
@@ -94,7 +114,6 @@ public class gameBoard {
                 gc.drawImage(grenade4.getImage(), grenade4.getX(), grenade4.getY());
             }
         }
-
         if (isTank2Dead()) {
             gc.setStroke(Color.BEIGE);
 
@@ -135,9 +154,8 @@ public class gameBoard {
                     Grenade grenade11 = grenade.get(i);
                     if (grenade11.isVisible()) {
                         grenade11.move();
-                    } else {
-                        grenade.remove(i);
-                    }
+                    } else {grenade.remove(i);}
+
                     if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead()) {
                         grenade.remove(grenade.get(i));
                         System.out.println("Tank 1 trefil tank 2");
@@ -150,12 +168,10 @@ public class gameBoard {
         if (isTank2Dead()) {
             for (int i = grenade2.size() - 1; i >= 0; i--) {
                 Grenade2 grenade22 = grenade2.get(i);
-                if (grenade22.isVisible()) {
+                if (grenade22.isVisible()) {grenade22.move();}
 
-                    grenade22.move();
-                } else {
-                    grenade2.remove(grenade2.get(i));
-                }
+                else {grenade2.remove(grenade2.get(i));}
+
                 if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent()) && isTankDead()) {
                     grenade2.remove(grenade2.get(i));
                     System.out.println("Tank 2 trefil tank 1");
@@ -168,13 +184,15 @@ public class gameBoard {
 
     private void updateTank() {
         tank.move();
-        if (isTank2Dead()){
-       com.example.tank_1990.Utills.Tools.checkCollisionTank(tank, tank2,tankPosition);}
+
+       com.example.tank_1990.Utills.Tools.checkCollisionTank(tank, tank2,tankPosition, barak);
+
     }
+
     private void updateTank2() {
         tank2.move();
         if (isTankDead()){
-            com.example.tank_1990.Utills.Tools.checkCollisionTank2(tank2, tank,tank2Position);}
+            com.example.tank_1990.Utills.Tools.checkCollisionTank2(tank2, tank,tank2Position, barak);}
     }
 
     public boolean isTankDead() {
