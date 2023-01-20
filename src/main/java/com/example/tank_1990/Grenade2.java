@@ -39,19 +39,19 @@ public class Grenade2 extends Entita{
     move() {
         if(tank2Position == "tank2Down.png"){
             y += GRENADE_SPEED;
-            if (x > BOARD_HEIGHT) {
+            if (y > BOARD_HEIGHT) {
                 visible = false;
             }
         }
         else if(tank2Position == "tank2Up.png"){
             y -= GRENADE_SPEED;
-            if (x > BOARD_HEIGHT) {
+            if (y + height < 0) {
                 visible = false;
             }
         }
         else if (tank2Position == "tank2Left.png"){
             x -= GRENADE_SPEED;
-            if (x > BOARD_WIDTH) {
+            if (x + width  < 0) {
                 visible = false;
             }
         }

@@ -14,7 +14,18 @@ public class Tank2 extends Entita {
     private int dy;
     private List<Grenade2> grenades2;
     private String imageName;
+
+    public boolean isToBeDeleted() {
+        return toBeDeleted;
+    }
+
+    public void setToBeDeleted(boolean toBeDeleted) {
+        this.toBeDeleted = toBeDeleted;
+    }
+
+    public boolean toBeDeleted= false;
     public int HP = 3;
+
 
 
 
@@ -41,11 +52,11 @@ public class Tank2 extends Entita {
         return grenades2;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e, int  fireCooldown2) {
 
             KeyCode key = e.getCode();
 
-            if (key == KeyCode.SHIFT) {
+            if (key == KeyCode.SHIFT  && fireCooldown2 <= 0) {
 
                 if (imageName == "tank2Right.png") {
                     fireRight();
@@ -129,6 +140,7 @@ public class Tank2 extends Entita {
     public void fireDown() {
         grenades2.add(new Grenade2(x + width / 2, y + height, imageName));
     }
+
 
     public void keyReleased(KeyEvent e) {
         KeyCode key = e.getCode();

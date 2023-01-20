@@ -14,8 +14,8 @@ import java.util.List;
 public class gameBoard {
     private final int ITANK_X = 40;
     private final int ITANK_Y = 60;
-    private final int ITANK2_Y = 800;
-    private final int ITANK2_X =600;
+    private final int ITANK2_Y = 1000;
+    private final int ITANK2_X =1000;
     public Tank tank;
     public Tank2 tank2;
     private final Canvas canvas;
@@ -23,12 +23,19 @@ public class gameBoard {
     private int zivoty2= 3;
     private int respawnTimer=1000;
     Image background = new Image("background.png");
+    Image exploze1 = new Image("exploze1.png");
+    Image exploze2 = new Image("exploze2.png");
+    Image exploze3= new Image("exploze3.png");
+    Image exploze4 = new Image("exploze4.png");
+
     Font Mujfont = new Font("Arial", 20);
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(7), e -> step()));
     String tankPosition, tank2Position;
     Rectangle barak = new Rectangle(0, 258, 70, 163);
     public int fireCooldown =10;
-    //Random rnd
+    public int fireCooldown2 =10;
+    private int trvaniExploze1 = 0;
+    private int trvaniExploze2 = 0;
 
 
     public gameBoard() {
@@ -47,7 +54,7 @@ public class gameBoard {
 
         canvas.setOnKeyPressed(keyEvent -> {
             tank.keyPressed(keyEvent, fireCooldown);
-            tank2.keyPressed(keyEvent);
+            tank2.keyPressed(keyEvent, fireCooldown2);
         });
         canvas.setOnKeyReleased(keyEvent -> {
             tank.keyReleased(keyEvent);
@@ -66,6 +73,8 @@ public class gameBoard {
         tank2Position = tank2.getImageName();
         this.updateGrenade();
         fireCooldown--;
+        fireCooldown2--;
+
         if (isTankDead()){this.updateTank();}
         else{
             respawnTimer--;
@@ -76,14 +85,15 @@ public class gameBoard {
             tank.setX(800);
             tank.setY(800);
         }}
-        if (isTank2Dead()){this.updateTank2();}  else{
+        if (isTank2Dead()){this.updateTank2();}
+        else{
             respawnTimer--;
             if (respawnTimer<=0){
                 tank2.HP = 3;
                 respawnTimer=600;
                 zivoty2=3;
-                tank2.setX(500);
-                tank2.setY(500);
+                tank2.setX(1000);
+                tank2.setY(1000);
             }}
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -96,6 +106,11 @@ public class gameBoard {
             gc.drawImage(tank.getImage(), tank.getX(), tank.getY());
             gc.setStroke(Color.WHITE);
             gc.strokeText("Player 1\nŽivoty " + zivoty1, tank.getX(), tank.getY() - 28);
+
+            if(trvaniExploze1 > 0){
+                System.out.println("FRANTA");
+                gc.drawImage(exploze1, tank.x, tank.y);
+                trvaniExploze1--;}
 
             List<Grenade> grenadeR = tank.getGrenades();
             for (Grenade grenade1 : grenadeR) {
@@ -119,10 +134,13 @@ public class gameBoard {
         }
         if (isTank2Dead()) {
             gc.setStroke(Color.BEIGE);
-
             gc.drawImage(tank2.getImage(), tank2.getX(), tank2.getY());
             gc.setStroke(Color.WHITE);
             gc.strokeText("Player 2 \nŽivoty " + zivoty2, tank2.getX(), tank2.getY() -28);
+            if(trvaniExploze2 > 0){
+                System.out.println("FRANTA2");
+                gc.drawImage(exploze1, tank2.x, tank2.y);
+                trvaniExploze2--;}
 
             List<Grenade2> grenade2R = tank2.getGrenades2();
             for (Grenade2 grenadeDruhehotanku1 : grenade2R) {
@@ -152,18 +170,23 @@ public class gameBoard {
         tank2Position = tank2.getImageName();
         List<Grenade> grenade = tank.getGrenades();
         List<Grenade2> grenade2 = tank2.getGrenades2();
+
+
             if(isTankDead()) {
-                for (int i = 0; i < grenade.size(); i++) {
+                for (int i = 0; i < grenade.size() ; i++) {
                     Grenade grenade11 = grenade.get(i);
                     if (grenade11.isVisible()) {
                         grenade11.move();
                         fireCooldown =10;
                     }
                     if (grenade.get(i).getRect().intersects(tank2.getRect().getBoundsInParent()) && isTank2Dead()) {
+                        System.out.println("Já píšu písmena :)" + grenade.get(i));
                         grenade.remove(grenade.get(i));
                         System.out.println("Tank 1 trefil tank 2");
                         tank2.HP = tank2.HP - 1;
                         zivoty2--;
+                        trvaniExploze2 = 50;
+
                     }
                     if (grenade.get(i).getRect().intersects(barak.getBoundsInParent())) {
                         grenade.remove(grenade.get(i));
@@ -171,44 +194,58 @@ public class gameBoard {
                     }
             }
 
-        if (isTank2Dead()) {
+            if (isTank2Dead()) {
             for (int i = grenade2.size() - 1; i >= 0; i--) {
                 Grenade2 grenade22 = grenade2.get(i);
-                if (grenade22.isVisible()) {grenade22.move();}
+                if (grenade22.isVisible()) {
+                    grenade22.move();
+                    fireCooldown2 =10;
+                }
 
-                else {grenade2.remove(grenade2.get(i));}
-
-                if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent()) && isTankDead()) {
+                if (grenade2.get(i).getRect().intersects(tank.getRect().getBoundsInParent()) && isTankDead()){
                     grenade2.remove(grenade2.get(i));
                     System.out.println("Tank 2 trefil tank 1");
                     tank.HP = tank.HP - 1;
                     zivoty1--;
+                    trvaniExploze1 = 50;
+
                 }
                 if (grenade2.get(i).getRect().intersects(barak.getBoundsInParent())) {
                     grenade2.remove(grenade2.get(i));
                 }
             }
         }
+
     }
 
     private void updateTank() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         tank.move();
-
-       com.example.tank_1990.Utills.Tools.checkCollisionTank(tank, tank2,tankPosition, barak);
-
+        if (isTank2Dead()) {
+            com.example.tank_1990.Utills.Tools.checkCollisionTank(tank, tank2, tankPosition, barak);
+        }
     }
 
     private void updateTank2() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         tank2.move();
         if (isTankDead()){
             com.example.tank_1990.Utills.Tools.checkCollisionTank2(tank2, tank,tank2Position, barak);}
+
+
     }
 
     public boolean isTankDead() {
-        return tank.HP > 0;
+        if (zivoty1 <= 0){
+            return false;
+        }
+        else {return true;}
     }
     public boolean isTank2Dead() {
-        return tank2.HP > 0;
+        if (zivoty2 <= 0){
+            return false;
+        }
+        else {return true;}
     }
 }
 
